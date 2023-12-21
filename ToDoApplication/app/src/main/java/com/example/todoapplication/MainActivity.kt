@@ -26,6 +26,9 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -37,24 +40,56 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import kotlin.random.Random
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        setContent {
+//            val painter = painterResource(id = R.drawable.snow_child)
+//            val description = "Child is playing in the snow"
+//            val title = "Child is playing in the snow"
+//            Box(modifier = Modifier
+//                .fillMaxWidth(0.5f)
+//                .padding(16.dp)
+//            ) {
+//                ImageCard(painter = painter, contentDescription = description, title = title)
+//                //StyleCard(title = title)
+//            }
+            
+            //Styling Text
+
+//            Box(modifier = Modifier
+//                .fillMaxWidth(0.5f)
+//                .padding(16.dp)
+//            ) {
+//                StyleCard(title = title)
+//            }
+
         setContent {
-            val painter = painterResource(id = R.drawable.snow_child)
-            val description = "Child is playing in the snow"
-            val title = "Child is playing in the snow"
-            Box(modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .padding(16.dp)
-            ) {
-                ImageCard(painter = painter, contentDescription = description, title = title)
+            Column (Modifier.fillMaxSize()){
+                val color = remember { mutableStateOf(Color.Yellow) }
+                ColorBox(
+                    Modifier
+                        .fillMaxSize()
+                        .weight(1f)
+                ){
+                    color.value = it
+                }
+                Box(modifier = Modifier
+                    .background(color.value)
+                    .weight(1f)
+                    .fillMaxSize()
+                )
             }
+
+        }
+
+
         }
     }
-}
+
 
 @Composable
 fun ImageCard(
@@ -97,3 +132,51 @@ fun ImageCard(
 
     }
 }
+
+@Composable
+fun StyleCard(
+    title:String,
+    modifier: Modifier = Modifier
+){
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(15.dp),
+        elevation = CardDefaults.cardElevation(5.dp)
+    ) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Gray)
+                .padding(12.dp),
+                contentAlignment = Alignment.BottomStart
+            ){
+                Text(title, style = TextStyle(color = Color.White, fontSize = 18.sp))
+            }
+        }
+
+    }
+
+
+@Composable
+fun ColorBox(modifier: Modifier = Modifier,
+             updatedColor: (Color) -> Unit) {
+
+    Box(
+        modifier = modifier
+            .background(Color.Red)
+            // Add additional modifiers as needed
+            .clickable {
+                updatedColor(
+                    Color(
+                        Random.nextFloat(),
+                        Random.nextFloat(),
+                        Random.nextFloat(), 1f
+
+                    )
+                )
+
+            }
+    )
+}
+
+
+

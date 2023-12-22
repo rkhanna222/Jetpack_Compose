@@ -21,7 +21,11 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -48,6 +52,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
@@ -81,43 +87,80 @@ class MainActivity : ComponentActivity() {
 //                composable("secondScreen") { SecondScreen(navController) }
 //            }
 
-            val scope = rememberCoroutineScope()
-            val snackbarHostState = remember{SnackbarHostState()}
-            var textFieldState by remember {
-                mutableStateOf("")
-            }
-            Scaffold(
-                modifier = Modifier.fillMaxSize(),
-                snackbarHost = {
-                    SnackbarHost(hostState = snackbarHostState)
-                },
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 30.dp)
-                ){
-                    TextField(
-                        value = textFieldState,
-                        onValueChange = {
-                            textFieldState = it
-                        },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth())
+            // Login Button // SnackBar Example
+//            val scope = rememberCoroutineScope()
+//            val snackbarHostState = remember{SnackbarHostState()}
+//            var textFieldState by remember {
+//                mutableStateOf("")
+//            }
+//            Scaffold(
+//                modifier = Modifier.fillMaxSize(),
+//                snackbarHost = {
+//                    SnackbarHost(hostState = snackbarHostState)
+//                },
+//            ) {
+//                Column(
+//                    horizontalAlignment = Alignment.CenterHorizontally,
+//                    verticalArrangement = Arrangement.Center,
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .padding(horizontal = 30.dp)
+//                ){
+//                    TextField(
+//                        value = textFieldState,
+//                        onValueChange = {
+//                            textFieldState = it
+//                        },
+//                        singleLine = true,
+//                        modifier = Modifier.fillMaxWidth())
+//
+//                    Spacer(modifier = Modifier.height(16.dp))
+//
+//                    Button(onClick = {
+//                        scope.launch { snackbarHostState.showSnackbar("Hello $textFieldState") }
+//
+//                    }) {
+//                        Text("Please greet me!")
+//                    }
+//
+//                }
+//
+//            }
 
-                    Spacer(modifier = Modifier.height(16.dp))
 
-                    Button(onClick = {
-                        scope.launch { snackbarHostState.showSnackbar("Hello $textFieldState") }
+            //List Example
 
-                    }) {
-                        Text("Please greet me!")
-                    }
-
+            val scrollState = rememberScrollState()
+            LazyColumn{
+                itemsIndexed(
+                    listOf("This","is","Jetpack","Compose")
+                ){ index, string ->
+                    Text(
+                        text = string,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                vertical = 24.dp
+                            )
+                    )
                 }
 
+//                items(5000){
+//                    Text(
+//                        text = "Item $it",
+//                        fontSize = 24.sp,
+//                        fontWeight = FontWeight.Bold,
+//                        textAlign = TextAlign.Center,
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(
+//                                vertical = 24.dp
+//                            )
+//                    )
+//                }
             }
         }
     }
